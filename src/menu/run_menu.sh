@@ -1,4 +1,4 @@
 #!/usr/bin/bash
 
 clear
-exec build/menu
+exec ../../bin/menu

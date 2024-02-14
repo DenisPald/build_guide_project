@@ -1,3 +1,4 @@
 #!/usr/bin/bash
 
-exec build/shell_sort
+clear
+exec ../../bin/shell_sort
