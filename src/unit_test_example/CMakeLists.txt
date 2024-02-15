@@ -1,0 +1,6 @@
+project(unit_test_bubble_sort)
+
+add_library(bubble_sort_lib "")
+
+add_subdirectory(src)
+add_subdirectory(test)
