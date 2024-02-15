@@ -10,9 +10,7 @@ TEST(BubbleSortTest, PositiveInput) {
 
     for (int i = 0; i < 10; i++) {
         ASSERT_EQ(expected[i], actual[i])
-            << "Массив ожидаемый и отсортировнный отличаются в элементе с "
-               "индексом "
-            << i;
+            << "Ошибка сортировки массива положительных чисел";
     }
 }
 
@@ -23,22 +21,18 @@ TEST(BubbleSortTest, NegativeInput) {
 
     for (int i = 0; i < 5; i++) {
         ASSERT_EQ(expected[i], actual[i])
-            << "Массив ожидаемый и отсортировнный отличаются в элементе с "
-               "индексом "
-            << i;
+            << "Ошибка сортировки массива отрицательных чисел";
     }
 }
 
-TEST(BubbleSortTest, ZerosInput) {
-    int actual[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-    BubbleSort::sort(actual, 10);
-    int expected[10] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
+TEST(BubbleSortTest, NaturalInput) {
+    int actual[5] = {-1, 1, -2, 0, 2};
+    BubbleSort::sort(actual, 5);
+    int expected[5] = {-2, -1, 0, 1, 2};
 
-    for (int i = 0; i < 10; i++) {
+    for (int i = 0; i < 5; i++) {
         ASSERT_EQ(expected[i], actual[i])
-            << "Массив ожидаемый и отсортировнный отличаются в элементе с "
-               "индексом "
-            << i;
+            << "Ошибка сортировки массива натуральных(положительных и отрицательных) чисел";
     }
 }
 
