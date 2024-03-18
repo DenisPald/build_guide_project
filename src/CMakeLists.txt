@@ -9,6 +9,7 @@ add_subdirectory(bubble_sort)
 add_subdirectory(menu)
 add_subdirectory(shell_sort)
 add_subdirectory(unit_test_example)
+add_subdirectory(scl)
 
 set(CMAKE_SUPPRESS_REGENERATION true)
 
