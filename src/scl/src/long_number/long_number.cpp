@@ -1,6 +1,4 @@
 #include "long_number.hpp"
-#include <cstdlib>
-#include <cstring>
 #include <iostream>
 
 namespace SCL {
@@ -70,6 +68,8 @@ namespace SCL {
 	}
 	
 	LongNumber& LongNumber::operator = (const LongNumber& x) {
+		if (this == &x) return *this;
+
 		delete [] this->numbers;
 
 		this->sign = x.sign;
@@ -131,32 +131,13 @@ namespace SCL {
 		}
 		return false;
 	}
+
 	bool LongNumber::operator >= (const LongNumber& x) const {
 		return !(*this<x);
 	}
 	
 	bool LongNumber::operator < (const LongNumber& x) const {
-		if (this->sign == NEGATIVE && x.sign == POSITIVE) return true;
-		if (this->sign == POSITIVE && x.sign == NEGATIVE) return false;
-
-		if (this->sign == POSITIVE){
-			if (this->length > x.length) return false;
-			if (this->length < x.length) return true;
-			for (int i = 0; i < this->length; i++) {
-				if (this->numbers[i] > x.numbers[i]) return false;
-				if (this->numbers[i] < x.numbers[i]) return true;
-			}
-		}
-
-		if (this->sign == NEGATIVE){
-			if (this->length > x.length) return true;
-			if (this->length < x.length) return false;
-			for (int i = 1; i < this->length; i++) {
-				if (this->numbers[i] > x.numbers[i]) return true;
-				if (this->numbers[i] < x.numbers[i]) return false;
-			}
-		}
-		return false;
+		return (*this != x) && !(*this>x);
 	}
 
 	bool LongNumber::operator <= (const LongNumber& x) const {
@@ -167,16 +148,16 @@ namespace SCL {
 		LongNumber result;
 		
 		if (this->is_positive() && !x.is_positive()) {
-			LongNumber abs_x = x;
-			abs_x.sign = POSITIVE;
-			result = *this - abs_x;
+			LongNumber result = x;
+			result.sign = POSITIVE;
+			result = *this - result;
 			return result;
 		}
 
 		if (!this->is_positive() && x.is_positive()){
-			LongNumber abs_this = *this;
-			abs_this.sign = POSITIVE;
-			result = x - abs_this;
+			LongNumber result = *this;
+			result.sign = POSITIVE;
+			result = x - result;
 			return result;
 		}
 
@@ -283,6 +264,7 @@ namespace SCL {
 				result.numbers[result_index] = current_digit;
 			}
 
+			// Fixing leading zeroes
 			for (int i = 0; i < result.length; i++){
 				if (result.numbers[0] == 0){
 					int *new_numbers = new int[result.length-1];
@@ -321,19 +303,11 @@ namespace SCL {
 		return *this;
 	}
 
-	LongNumber LongNumber::operator * (const LongNumber& x) const {
+	LongNumber LongNumber::operator * (const LongNumber& x) const{
+		//TODO
 		LongNumber result;
-		result.length = this->length+x.length+1;
-		result.numbers = new int[result.length];
-
-		for (int i = 0; i < this->length; i++){
-			for (int j = 0; j < x.length; j++){
-				result.numbers[i+j-1] += this->numbers[i] + x.numbers[j]; 
-			}
-		}
-		std::cout << result.numbers[0] << ' ' << result.numbers[1] << std::endl;
 		return result;
-	}
+	} 
 	
 	LongNumber LongNumber::operator / (const LongNumber& x) const{
 		//TODO
@@ -360,7 +334,7 @@ namespace SCL {
 	// ----------------------------------------------------------
 	int LongNumber::get_length(const char* const str) const {
 		int length = 0;
-			while (str[length] != '\0') length++;
+			while (str[length] != END) length++;
 		return length;
 	}
 
@@ -369,8 +343,8 @@ namespace SCL {
 		if (this->sign == NEGATIVE) sign_indentation++;
 
 		char* result = new char[this->length+sign_indentation+1];
-		result[this->length+sign_indentation] = '\0';
-		if (sign_indentation) result[0] = '-';	
+		result[this->length+sign_indentation] = END;
+		if (sign_indentation) result[0] = MINUS;
 
 		for (int i = 0; i < this->length; i++){
 			char current_digit = this->numbers[i] + '0';
