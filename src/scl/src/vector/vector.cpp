@@ -1,4 +1,5 @@
 #include "vector.hpp"
+#include <cstddef>
 #include <stdexcept>
 #include <iostream>
 
@@ -8,6 +9,7 @@ IBusko::Vector<T>::~Vector() noexcept{
 	delete[] arr;
 	capacity = 0;
 	size = 0;
+	arr = nullptr;
 }
 
 
@@ -76,7 +78,22 @@ void IBusko::Vector<T>::print() const noexcept{
 
 template <typename T>
 bool IBusko::Vector<T>::remove_first(const T& value) noexcept{
-	//TODO
+	T* new_arr = new T[capacity - 1];
+
+	for (std::size_t i = 0; i < size; i++){
+		if (arr[i] == value){
+			for (std::size_t j = i; j < size-1; j++){
+				new_arr[j] = arr[j+1];
+			}
+			delete[] arr;
+			arr = new_arr;
+			capacity -= 1;
+			size -= 1;
+			return true;
+		}
+		new_arr[i] = arr[i];
+	}
+
 	return false;
 }
 
