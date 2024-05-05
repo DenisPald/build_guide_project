@@ -30,6 +30,10 @@ void IBusko::DoublyLinkedList<T>::push_back(const T& value) noexcept{
 
 template<typename T>
 bool IBusko::DoublyLinkedList<T>::has_item(const T& value) const noexcept{
+	if (end == nullptr) {
+		return 0;
+	}
+
 	Node* element = begin;
 	while(element != end){
 		if (element->value == value){
@@ -38,31 +42,34 @@ bool IBusko::DoublyLinkedList<T>::has_item(const T& value) const noexcept{
 		element = element->next;
 	}
 
-	if (end != nullptr) {
-		if (end->value == value) {
-			return 1;
-		}
+	if (end->value == value) {
+		return 1;
 	}
-
 	return 0;
 }
 
 
 template<typename T>
 void IBusko::DoublyLinkedList<T>::print() const noexcept{
+	if (end == nullptr){
+		return;
+	}
 	Node* element = begin;
 	while(element != end){
 		std::cout << element->value << " ";
 		element = element->next;
 	}
-	if (end != nullptr)
-		std::cout << end->value << std::endl;
+	std::cout << end->value;
 }
 
 
 
 template<typename T>
 bool IBusko::DoublyLinkedList<T>::remove_first(const T& value) noexcept{
+	if (end == nullptr){
+		return 0;
+	}
+
 	Node* element = begin;
 	while(element != end){
 		if (element->value == value){
@@ -74,30 +81,28 @@ bool IBusko::DoublyLinkedList<T>::remove_first(const T& value) noexcept{
 		element = element->next;
 	}
 
-	if (end != nullptr){
-		if (end->value == value){
-			end = end->prev;
-			delete end->next;
-			end->next = nullptr;
-			return 1;
-		}
+	if (end->value == value){
+		end = end->prev;
+		delete end->next;
+		end->next = nullptr;
+		return 1;
 	}
-
 	return 0;
 }
 
 
 template<typename T>
 std::size_t IBusko::DoublyLinkedList<T>::size() const noexcept{
-	std::size_t counter = 0;
+	if (end == nullptr){
+		return 0;
+	}
+
+	std::size_t counter = 1; // While loop does not count end element
 	Node* element = begin;
 	while(element != end){
 		counter++;
 		element = element->next;
 	}
-
-	if (end != nullptr)
-		counter++;
 
 	return counter;
 }

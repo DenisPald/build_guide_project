@@ -72,7 +72,6 @@ void IBusko::Vector<T>::print() const noexcept{
 	for (std::size_t i = 0; i < size; i++){
 		std::cout << arr[i] << " ";
 	}
-	std::cout << std::endl;
 }
 
 
