@@ -70,6 +70,13 @@ bool IBusko::DoublyLinkedList<T>::remove_first(const T& value) noexcept{
 		return 0;
 	}
 
+	if (end == begin && end->value == value){
+		delete end;
+		end = nullptr;
+		begin = nullptr;
+		return 1;
+	}
+
 	Node* element = begin;
 	while(element != end){
 		if (element->value == value){
